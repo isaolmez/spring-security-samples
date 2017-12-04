@@ -1,0 +1,36 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'org.springframework.security:spring-security-web:4.2.2.RELEASE'
+    compile 'org.springframework.security:spring-security-config:4.2.2.RELEASE'
+    compile 'org.springframework:spring-webmvc:4.2.2.RELEASE'
+    compile 'org.springframework:spring-jdbc:4.2.2.RELEASE'
+    compile 'com.h2database:h2:1.4.195'
+    providedRuntime 'javax.servlet:javax.servlet-api:3.1.0'
+    compile 'org.slf4j:jcl-over-slf4j:1.7.25'
+    compile 'ch.qos.logback:logback-classic:1.2.3'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+    compile group: 'javax.servlet.jsp.jstl', name: 'jstl', version: '1.2'
+    compile group: 'javax.servlet.jsp.jstl', name: 'jstl-api', version: '1.2'
+    providedRuntime group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version: '2.3.1'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '4.2.2.RELEASE'
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'org.springframework') {
+            details.useVersion '4.3.5.RELEASE'
+        }
+    }
+}

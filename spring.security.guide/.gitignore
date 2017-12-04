@@ -1,8 +1,8 @@
-**/out
-**/build
+**/out/
+**/build/
 **/.gradle
 
-**/target
+**/target/
 
 **/.project
 **/.settings
@@ -10,5 +10,3 @@
 
 **/*.iml
 **/.idea
-
-**/logs
