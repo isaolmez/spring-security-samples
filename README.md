@@ -1,2 +1,2 @@
-# Spring Ssecurity Samples
+# Spring Security Samples
 Seeds projects for exploring spring-security
