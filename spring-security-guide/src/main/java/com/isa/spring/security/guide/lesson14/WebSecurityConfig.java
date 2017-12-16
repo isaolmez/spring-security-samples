@@ -1,4 +1,4 @@
-package com.isa.spring.security.guide.lesson9;
+package com.isa.spring.security.guide.lesson14;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @EnableWebSecurity
 @Configuration
-@Profile("lesson9")
+@Profile("lesson14")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -21,6 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(User.withUsername("user").password("password").roles("USER").build());
+        manager.createUser(User.withUsername("admin").password("password").roles("USER", "ADMIN").build());
         return manager;
     }
 
