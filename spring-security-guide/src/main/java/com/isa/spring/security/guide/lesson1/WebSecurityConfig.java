@@ -13,24 +13,24 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Profile("lesson1")
 public class WebSecurityConfig {
 
-    /***
-     * In case of no security configuration,WebSecurityConfiguration->WebSecurityConfigurerAdapter configures the security
-     *
-     protected void configure(HttpSecurity http) throws Exception {
-     http
-     .authorizeRequests()
-     .anyRequest().authenticated()
-     .and()
-     .formLogin()
-     .and()
-     .httpBasic();
-     }
-     */
+  /***
+   * In case of no security configuration,WebSecurityConfiguration->WebSecurityConfigurerAdapter configures the security
+   *
+   protected void configure(HttpSecurity http) throws Exception {
+   http
+   .authorizeRequests()
+   .anyRequest().authenticated()
+   .and()
+   .formLogin()
+   .and()
+   .httpBasic();
+   }
+   */
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user").password("password").roles("USER").build());
-        return manager;
-    }
+  @Bean
+  public UserDetailsService userDetailsService() {
+    InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+    manager.createUser(User.withUsername("user").password("password").roles("USER").build());
+    return manager;
+  }
 }

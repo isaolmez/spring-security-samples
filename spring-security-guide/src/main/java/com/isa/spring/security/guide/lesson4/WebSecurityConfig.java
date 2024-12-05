@@ -18,35 +18,35 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Profile("lesson4")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Bean(destroyMethod = "shutdown")
-    public DataSource dataSource() {
-        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-        return builder.generateUniqueName(true)
-                .setScriptEncoding(StandardCharsets.UTF_8.name())
-                .setType(EmbeddedDatabaseType.H2)
-                .build();
-    }
+  @Bean(destroyMethod = "shutdown")
+  public DataSource dataSource() {
+    EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+    return builder.generateUniqueName(true)
+        .setScriptEncoding(StandardCharsets.UTF_8.name())
+        .setType(EmbeddedDatabaseType.H2)
+        .build();
+  }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource())
-                .withDefaultSchema()
-                .withUser("user").password("password").roles("USER").and()
-                .withUser("admin").password("password").roles("USER", "ADMIN");
-    }
+  @Autowired
+  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    auth.jdbcAuthentication()
+        .dataSource(dataSource())
+        .withDefaultSchema()
+        .withUser("user").password("password").roles("USER").and()
+        .withUser("admin").password("password").roles("USER", "ADMIN");
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .invalidateHttpSession(true)
-                .deleteCookies();
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests().anyRequest().authenticated()
+        .and()
+        .formLogin()
+        .loginPage("/login")
+        .permitAll()
+        .and()
+        .logout()
+        .logoutUrl("/logout")
+        .invalidateHttpSession(true)
+        .deleteCookies();
+  }
 }

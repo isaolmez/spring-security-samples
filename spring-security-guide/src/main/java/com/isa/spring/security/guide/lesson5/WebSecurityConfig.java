@@ -14,32 +14,32 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Profile("lesson5")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private DataSource dataSource;
+  private DataSource dataSource;
 
-    public WebSecurityConfig(DataSource dataSource){
-        this.dataSource = dataSource;
-    }
+  public WebSecurityConfig(DataSource dataSource) {
+    this.dataSource = dataSource;
+  }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource);
+  @Autowired
+  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    auth.jdbcAuthentication()
+        .dataSource(dataSource);
 //                .withUser("user").password("password").roles("USER").and()
 //                .withUser("admin").password("password").roles("USER", "ADMIN");
-    }
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                  .anyRequest().authenticated()
-                  .and()
-                .formLogin()
-                  .loginPage("/login")
-                  .permitAll()
-                  .and()
-                .logout()
-                  .logoutUrl("/logout")
-                  .invalidateHttpSession(true)
-                  .deleteCookies();
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests()
+        .anyRequest().authenticated()
+        .and()
+        .formLogin()
+        .loginPage("/login")
+        .permitAll()
+        .and()
+        .logout()
+        .logoutUrl("/logout")
+        .invalidateHttpSession(true)
+        .deleteCookies();
+  }
 }

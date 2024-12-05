@@ -15,24 +15,24 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Profile("lesson5")
 public class DataSourceConfig {
 
-    private DataSourceProperties dataSourceProperties;
+  private DataSourceProperties dataSourceProperties;
 
-    public DataSourceConfig(DataSourceProperties dataSourceProperties) {
-        this.dataSourceProperties = dataSourceProperties;
-    }
+  public DataSourceConfig(DataSourceProperties dataSourceProperties) {
+    this.dataSourceProperties = dataSourceProperties;
+  }
 
-    @Bean
-    public DataSource dataSource() {
-        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-        dataSource.setDriverClass(Driver.class);
-        dataSource.setUrl(dataSourceProperties.getUrl());
-        dataSource.setUsername(dataSourceProperties.getUsername());
-        dataSource.setPassword(dataSourceProperties.getPassword());
-        return dataSource;
-    }
+  @Bean
+  public DataSource dataSource() {
+    SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+    dataSource.setDriverClass(Driver.class);
+    dataSource.setUrl(dataSourceProperties.getUrl());
+    dataSource.setUsername(dataSourceProperties.getUsername());
+    dataSource.setPassword(dataSourceProperties.getPassword());
+    return dataSource;
+  }
 
-    @Bean
-    public PlatformTransactionManager transactionManager() {
-        return new DataSourceTransactionManager(dataSource());
-    }
+  @Bean
+  public PlatformTransactionManager transactionManager() {
+    return new DataSourceTransactionManager(dataSource());
+  }
 }

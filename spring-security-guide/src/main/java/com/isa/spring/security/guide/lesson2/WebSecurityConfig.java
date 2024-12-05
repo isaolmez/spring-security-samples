@@ -15,20 +15,20 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Profile("lesson2")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user").password("password").roles("USER").build());
-        return manager;
-    }
+  @Bean
+  @Override
+  public UserDetailsService userDetailsService() {
+    InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+    manager.createUser(User.withUsername("user").password("password").roles("USER").build());
+    return manager;
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/mylogin")
-                .permitAll();
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests().anyRequest().authenticated()
+        .and()
+        .formLogin()
+        .loginPage("/mylogin")
+        .permitAll();
+  }
 }

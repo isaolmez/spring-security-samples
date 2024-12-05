@@ -13,23 +13,23 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Profile("lesson6")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        return new MyAuthenticationProvider();
-    }
+  @Bean
+  public AuthenticationProvider authenticationProvider() {
+    return new MyAuthenticationProvider();
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                  .anyRequest().authenticated()
-                  .and()
-                .formLogin()
-                  .loginPage("/login")
-                  .permitAll()
-                  .and()
-                .logout()
-                  .logoutUrl("/logout")
-                  .invalidateHttpSession(true)
-                  .deleteCookies();
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests()
+        .anyRequest().authenticated()
+        .and()
+        .formLogin()
+        .loginPage("/login")
+        .permitAll()
+        .and()
+        .logout()
+        .logoutUrl("/logout")
+        .invalidateHttpSession(true)
+        .deleteCookies();
+  }
 }

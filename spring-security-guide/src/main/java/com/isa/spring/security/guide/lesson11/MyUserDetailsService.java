@@ -10,11 +10,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public class MyUserDetailsService implements UserDetailsService {
 
-    @Override
-    public UserDetails loadUserByUsername(String username) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new UserAuthority("SITEA"));
-        authorities.add(new UserAuthority("SITEB"));
-        return new User("user", "password", authorities);
-    }
+  @Override
+  public UserDetails loadUserByUsername(String username) {
+    List<GrantedAuthority> authorities = new ArrayList<>();
+    authorities.add(new UserAuthority("SITEA"));
+    authorities.add(new UserAuthority("SITEB"));
+    return new User("user", "password", authorities);
+  }
 }

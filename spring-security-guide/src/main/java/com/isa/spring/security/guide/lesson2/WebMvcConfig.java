@@ -14,16 +14,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Profile("lesson2")
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        super.addViewControllers(registry);
+  @Override
+  public void addViewControllers(ViewControllerRegistry registry) {
+    super.addViewControllers(registry);
 
-        registry.addViewController("/").setViewName("index");
-        registry.addViewController("/mylogin");
-    }
+    registry.addViewController("/").setViewName("index");
+    registry.addViewController("/mylogin");
+  }
 
-    @Bean
-    public ViewResolver viewResolver() {
-        return new JspViewResolver();
-    }
+  @Bean
+  public ViewResolver viewResolver() {
+    return new JspViewResolver();
+  }
 }

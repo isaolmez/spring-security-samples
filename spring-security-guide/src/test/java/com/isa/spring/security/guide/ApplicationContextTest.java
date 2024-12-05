@@ -7,11 +7,11 @@ import org.springframework.context.ApplicationContext;
 
 public class ApplicationContextTest extends BaseTest {
 
-    @Autowired
-    private ApplicationContext context;
+  @Autowired
+  private ApplicationContext context;
 
-    @Test
-    public void shouldLoadContext() {
-        // Do nothing
-    }
+  @Test
+  public void shouldLoadContext() {
+    // Do nothing
+  }
 }

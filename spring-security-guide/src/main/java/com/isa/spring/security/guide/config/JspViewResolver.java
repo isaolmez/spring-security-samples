@@ -5,9 +5,9 @@ import org.springframework.web.servlet.view.JstlView;
 
 public class JspViewResolver extends InternalResourceViewResolver {
 
-    public JspViewResolver() {
-        setViewClass(JstlView.class);
-        setPrefix("/WEB-INF/view/");
-        setSuffix(".jsp");
-    }
+  public JspViewResolver() {
+    setViewClass(JstlView.class);
+    setPrefix("/WEB-INF/view/");
+    setSuffix(".jsp");
+  }
 }

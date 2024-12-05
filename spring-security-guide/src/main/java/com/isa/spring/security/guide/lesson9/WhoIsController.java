@@ -14,22 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 @Profile("lesson9")
 public class WhoIsController {
 
-    @Secured("ROLE_USER")
-    @GetMapping(value = "/whois")
-    public String whois() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        StringBuilder builder = new StringBuilder();
-        builder.append("principal: ").append(getPrincipal(authentication));
-        builder.append(",");
-        builder.append("authorities: ").append(authentication.getAuthorities());
-        return builder.toString();
-    }
+  @Secured("ROLE_USER")
+  @GetMapping(value = "/whois")
+  public String whois() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    StringBuilder builder = new StringBuilder();
+    builder.append("principal: ").append(getPrincipal(authentication));
+    builder.append(",");
+    builder.append("authorities: ").append(authentication.getAuthorities());
+    return builder.toString();
+  }
 
-    private String getPrincipal(Authentication authentication) {
-        if (authentication.getPrincipal() instanceof UserDetails) {
-            return ((UserDetails) authentication.getPrincipal()).getUsername();
-        } else {
-            return authentication.getPrincipal().toString();
-        }
+  private String getPrincipal(Authentication authentication) {
+    if (authentication.getPrincipal() instanceof UserDetails) {
+      return ((UserDetails) authentication.getPrincipal()).getUsername();
+    } else {
+      return authentication.getPrincipal().toString();
     }
+  }
 }

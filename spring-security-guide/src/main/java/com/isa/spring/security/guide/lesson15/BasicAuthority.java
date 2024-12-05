@@ -4,33 +4,33 @@ import org.springframework.security.core.GrantedAuthority;
 
 public class BasicAuthority implements GrantedAuthority {
 
-    private final String authority;
+  private final String authority;
 
-    public BasicAuthority(String authority) {
-        this.authority = authority;
+  public BasicAuthority(String authority) {
+    this.authority = authority;
+  }
+
+  @Override
+  public String getAuthority() {
+    return authority;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
 
-    @Override
-    public String getAuthority() {
-        return authority;
-    }
+    BasicAuthority that = (BasicAuthority) o;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+    return authority != null ? authority.equals(that.authority) : that.authority == null;
+  }
 
-        BasicAuthority that = (BasicAuthority) o;
-
-        return authority != null ? authority.equals(that.authority) : that.authority == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return authority != null ? authority.hashCode() : 0;
-    }
+  @Override
+  public int hashCode() {
+    return authority != null ? authority.hashCode() : 0;
+  }
 }

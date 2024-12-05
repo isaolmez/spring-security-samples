@@ -11,21 +11,21 @@ import org.springframework.web.bind.annotation.RestController;
 @Profile("lesson15")
 public class AccessController {
 
-    @PreAuthorize("hasAuthority('SITEA')")
-    @GetMapping(value = "/sitea")
-    public String siteA() {
-        return "SITEA";
-    }
+  @PreAuthorize("hasAuthority('SITEA')")
+  @GetMapping(value = "/sitea")
+  public String siteA() {
+    return "SITEA";
+  }
 
-    @PreAuthorize("hasAuthority('SITEB')")
-    @GetMapping(value = "/siteb")
-    public String siteB() {
-        return "SITEB";
-    }
+  @PreAuthorize("hasAuthority('SITEB')")
+  @GetMapping(value = "/siteb")
+  public String siteB() {
+    return "SITEB";
+  }
 
-    @PreAuthorize("hasAuthority('SITEA') AND hasAuthority('SITEB')")
-    @GetMapping(value = "/siteab")
-    public String siteAB() {
-        return "SITEAB";
-    }
+  @PreAuthorize("hasAuthority('SITEA') AND hasAuthority('SITEB')")
+  @GetMapping(value = "/siteab")
+  public String siteAB() {
+    return "SITEAB";
+  }
 }

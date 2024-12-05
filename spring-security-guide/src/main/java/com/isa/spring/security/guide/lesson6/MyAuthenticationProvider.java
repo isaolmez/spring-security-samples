@@ -14,22 +14,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class MyAuthenticationProvider implements AuthenticationProvider {
 
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        if (authentication.getPrincipal().equals("user") &&
-                authentication.getCredentials().equals("password")) {
-            Collection<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-            UserDetails userDetails = new User("user", "password", authorities);
-            return new UsernamePasswordAuthenticationToken(userDetails, authentication.getCredentials(), authorities);
-        }
-
-        return null;
+  @Override
+  public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    if (authentication.getPrincipal().equals("user") &&
+        authentication.getCredentials().equals("password")) {
+      Collection<GrantedAuthority> authorities = new ArrayList<>();
+      authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+      UserDetails userDetails = new User("user", "password", authorities);
+      return new UsernamePasswordAuthenticationToken(userDetails, authentication.getCredentials(),
+          authorities);
     }
 
-    @Override
-    public boolean supports(Class<?> authentication) {
-        return (UsernamePasswordAuthenticationToken.class
-                .isAssignableFrom(authentication));
-    }
+    return null;
+  }
+
+  @Override
+  public boolean supports(Class<?> authentication) {
+    return (UsernamePasswordAuthenticationToken.class
+        .isAssignableFrom(authentication));
+  }
 }

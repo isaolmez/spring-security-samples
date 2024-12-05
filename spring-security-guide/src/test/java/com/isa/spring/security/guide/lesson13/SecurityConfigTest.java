@@ -24,66 +24,66 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("lesson13")
 public class SecurityConfigTest extends BaseTest {
 
-    @Autowired
-    private WebApplicationContext wac;
+  @Autowired
+  private WebApplicationContext wac;
 
-    private MockMvc mockMvc;
+  private MockMvc mockMvc;
 
-    @Before
-    public void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-                .apply(SecurityMockMvcConfigurers.springSecurity())
-                .alwaysDo(MockMvcResultHandlers.print())
-                .build();
-    }
+  @Before
+  public void setUp() {
+    mockMvc = MockMvcBuilders.webAppContextSetup(wac)
+        .apply(SecurityMockMvcConfigurers.springSecurity())
+        .alwaysDo(MockMvcResultHandlers.print())
+        .build();
+  }
 
-    @Test
-    public void shouldRedirectToLogin() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isFound())
-                .andExpect(redirectedUrlPattern("**/login"))
-                .andExpect(unauthenticated());
-    }
+  @Test
+  public void shouldRedirectToLogin() throws Exception {
+    mockMvc.perform(get("/"))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrlPattern("**/login"))
+        .andExpect(unauthenticated());
+  }
 
-    @Test
-    public void shouldLogin() throws Exception {
-        mockMvc.perform(formLogin().user("user").password("password"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(authenticated().withUsername("user").withRoles("USER"));
-    }
+  @Test
+  public void shouldLogin() throws Exception {
+    mockMvc.perform(formLogin().user("user").password("password"))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(authenticated().withUsername("user").withRoles("USER"));
+  }
 
-    @Test
-    public void shouldLoginWithOtherProvider() throws Exception {
-        mockMvc.perform(formLogin().user("otherUser").password("password"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(authenticated().withUsername("otherUser").withRoles("USER"));
-    }
+  @Test
+  public void shouldLoginWithOtherProvider() throws Exception {
+    mockMvc.perform(formLogin().user("otherUser").password("password"))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(authenticated().withUsername("otherUser").withRoles("USER"));
+  }
 
-    @Test
-    public void shouldFailAtLogin() throws Exception {
-        mockMvc.perform(formLogin().user("user").password("wrongPass"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(unauthenticated());
-    }
+  @Test
+  public void shouldFailAtLogin() throws Exception {
+    mockMvc.perform(formLogin().user("user").password("wrongPass"))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(unauthenticated());
+  }
 
-    @Test
-    public void shouldFailAtLoginWithOtherProvider() throws Exception {
-        mockMvc.perform(formLogin().user("otherUser").password("wrongPass"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(unauthenticated());
-    }
+  @Test
+  public void shouldFailAtLoginWithOtherProvider() throws Exception {
+    mockMvc.perform(formLogin().user("otherUser").password("wrongPass"))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(unauthenticated());
+  }
 
-    @Test
-    public void shouldLogout() throws Exception {
-        mockMvc.perform(logout())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/login?logout"))
-                .andExpect(unauthenticated());
-    }
+  @Test
+  public void shouldLogout() throws Exception {
+    mockMvc.perform(logout())
+        .andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrl("/login?logout"))
+        .andExpect(unauthenticated());
+  }
 
-    @Test
-    public void shouldNotRedirectToLogin() throws Exception {
-        mockMvc.perform(get("/").with(user("user").password("password")))
-                .andExpect(status().isOk());
-    }
+  @Test
+  public void shouldNotRedirectToLogin() throws Exception {
+    mockMvc.perform(get("/").with(user("user").password("password")))
+        .andExpect(status().isOk());
+  }
 }

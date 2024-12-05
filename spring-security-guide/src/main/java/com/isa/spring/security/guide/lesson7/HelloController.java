@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Profile("lesson7")
 public class HelloController {
 
-    @GetMapping(value = "/hello")
-    public String hello() {
-        return "Hello";
-    }
+  @GetMapping(value = "/hello")
+  public String hello() {
+    return "Hello";
+  }
 }

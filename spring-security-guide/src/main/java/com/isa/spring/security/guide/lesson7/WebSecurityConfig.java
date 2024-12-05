@@ -16,47 +16,48 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Profile("lesson7")
 public class WebSecurityConfig {
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user").password("password").roles("USER").build());
-        manager.createUser(User.withUsername("admin").password("password").roles("USER", "ADMIN").build());
-        return manager;
+  @Bean
+  public UserDetailsService userDetailsService() {
+    InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+    manager.createUser(User.withUsername("user").password("password").roles("USER").build());
+    manager.createUser(
+        User.withUsername("admin").password("password").roles("USER", "ADMIN").build());
+    return manager;
+  }
+
+  @Configuration
+  @Order(1)
+  @Profile("lesson7")
+  public static class ApiWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+      http.antMatcher("/api/**")
+          .authorizeRequests()
+          .anyRequest().hasRole("ADMIN")
+          .and()
+          .httpBasic();
     }
+  }
 
-    @Configuration
-    @Order(1)
-    @Profile("lesson7")
-    public static class ApiWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+  @Configuration
+  @Profile("lesson7")
+  public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http.antMatcher("/api/**")
-                    .authorizeRequests()
-                      .anyRequest().hasRole("ADMIN")
-                      .and()
-                    .httpBasic();
-        }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+      http.authorizeRequests()
+          .anyRequest().authenticated()
+          .and()
+          .formLogin()
+          .loginPage("/login")
+          .permitAll()
+          .and()
+          .logout()
+          .logoutUrl("/logout")
+          .invalidateHttpSession(true)
+          .deleteCookies();
     }
-
-    @Configuration
-    @Profile("lesson7")
-    public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
-
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http.authorizeRequests()
-                      .anyRequest().authenticated()
-                      .and()
-                    .formLogin()
-                      .loginPage("/login")
-                      .permitAll()
-                      .and()
-                    .logout()
-                      .logoutUrl("/logout")
-                      .invalidateHttpSession(true)
-                      .deleteCookies();
-        }
-    }
+  }
 
 }

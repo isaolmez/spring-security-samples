@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Profile("lesson8")
 public class HelloController {
 
-    @Secured("ROLE_USER")
-    @GetMapping(value = "/hello")
-    public String hello() {
-        return "Hello";
-    }
+  @Secured("ROLE_USER")
+  @GetMapping(value = "/hello")
+  public String hello() {
+    return "Hello";
+  }
 }

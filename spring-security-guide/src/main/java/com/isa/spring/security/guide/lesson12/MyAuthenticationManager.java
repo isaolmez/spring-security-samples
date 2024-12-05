@@ -7,18 +7,18 @@ import org.springframework.security.core.Authentication;
 
 public class MyAuthenticationManager implements AuthenticationManager {
 
-    private final AuthenticationProvider authenticationProvider;
+  private final AuthenticationProvider authenticationProvider;
 
-    public MyAuthenticationManager(AuthenticationProvider authenticationProvider) {
-        this.authenticationProvider = authenticationProvider;
+  public MyAuthenticationManager(AuthenticationProvider authenticationProvider) {
+    this.authenticationProvider = authenticationProvider;
+  }
+
+  @Override
+  public Authentication authenticate(Authentication authentication) {
+    if (authenticationProvider.supports(authentication.getClass())) {
+      return authenticationProvider.authenticate(authentication);
     }
 
-    @Override
-    public Authentication authenticate(Authentication authentication) {
-        if (authenticationProvider.supports(authentication.getClass())) {
-            return authenticationProvider.authenticate(authentication);
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

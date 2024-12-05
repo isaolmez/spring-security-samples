@@ -13,24 +13,24 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @Profile("lesson10")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Override
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new MyUserDetailsService();
-    }
+  @Override
+  @Bean
+  public UserDetailsService userDetailsService() {
+    return new MyUserDetailsService();
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                  .anyRequest().authenticated()
-                  .and()
-                .formLogin()
-                  .loginPage("/login")
-                  .permitAll()
-                  .and()
-                .logout()
-                  .logoutUrl("/logout")
-                  .invalidateHttpSession(true)
-                  .deleteCookies();
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests()
+        .anyRequest().authenticated()
+        .and()
+        .formLogin()
+        .loginPage("/login")
+        .permitAll()
+        .and()
+        .logout()
+        .logoutUrl("/logout")
+        .invalidateHttpSession(true)
+        .deleteCookies();
+  }
 }

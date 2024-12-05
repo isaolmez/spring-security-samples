@@ -24,57 +24,60 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @Profile("lesson3")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final Logger log = LoggerFactory.getLogger(WebSecurityConfig.class);
+  private static final Logger log = LoggerFactory.getLogger(WebSecurityConfig.class);
 
-    @Bean
+  @Bean
+  @Override
+  public UserDetailsService userDetailsService() {
+    InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+    manager.createUser(User.withUsername("user").password("password").roles("USER").build());
+    return manager;
+  }
+
+  @Bean
+  public LogoutHandler logoutHandler() {
+    return new MyLogoutHandler();
+  }
+
+  @Bean
+  public LogoutSuccessHandler logoutSuccessHandler() {
+    return new MyLogoutSuccessHandler();
+  }
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests().anyRequest().authenticated()
+        .and()
+        .formLogin()
+        .loginPage("/login")
+        .permitAll()
+        .and()
+        .logout()
+        .logoutUrl("/logout")
+        .logoutSuccessUrl(
+            "/loggedout") // This sets SimpleUrlLogoutSuccessHandler as LogoutSuccessHandler
+        .logoutSuccessHandler(logoutSuccessHandler()) // This overrides previous handler
+        .invalidateHttpSession(true)
+        .addLogoutHandler(logoutHandler())
+        .deleteCookies(); // This is also another logout handler
+  }
+
+  public static class MyLogoutHandler implements LogoutHandler {
+
     @Override
-    public UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user").password("password").roles("USER").build());
-        return manager;
+    public void logout(HttpServletRequest request, HttpServletResponse response,
+        Authentication authentication) {
+      log.debug("Logging out");
     }
+  }
 
-    @Bean
-    public LogoutHandler logoutHandler() {
-        return new MyLogoutHandler();
-    }
-
-    @Bean
-    public LogoutSuccessHandler logoutSuccessHandler() {
-        return new MyLogoutSuccessHandler();
-    }
+  public static class MyLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/loggedout") // This sets SimpleUrlLogoutSuccessHandler as LogoutSuccessHandler
-                .logoutSuccessHandler(logoutSuccessHandler()) // This overrides previous handler
-                .invalidateHttpSession(true)
-                .addLogoutHandler(logoutHandler())
-                .deleteCookies(); // This is also another logout handler
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
+        Authentication authentication)
+        throws IOException, ServletException {
+      response.sendRedirect("/loggedoutCustom");
     }
-
-    public static class MyLogoutHandler implements LogoutHandler {
-
-        @Override
-        public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-            log.debug("Logging out");
-        }
-    }
-
-    public static class MyLogoutSuccessHandler implements LogoutSuccessHandler {
-
-        @Override
-        public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-                throws IOException, ServletException {
-            response.sendRedirect("/loggedoutCustom");
-        }
-    }
+  }
 }
